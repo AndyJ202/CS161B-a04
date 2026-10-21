@@ -1,54 +1,92 @@
-// ------------- FILE HEADER -------------
-// Author ✅: 
-// Assignment ✅:
-// Date ✅:
-// Citations: 
-
-
-// ------------- CODE -------------
+/******************************************************************************
+# Author:           Andy Joy
+# Assignment:       Assignment 4
+# Date:             10/19/2026
+# Description:      
+#                   
+#                   
+# Input:            
+#                   
+# Output:           
+#                   
+# Sources:          SampleA04 code, arrayInsertSort (Shawli Sengupta).
+#******************************************************************************/
 #include <iostream>
-
+#include <cstring>
+#include <cstdlib>
 using namespace std;
 
-// Function prototypes (if any)
+//Constants
+const int MAXCHAR = 51;
+const int CAP = 20;
 
+//Function prototypes
+void welcome();
+void readInput(char courseNums[][MAXCHAR], int students[MAXCHAR], int &count);
+void readInt(string prompt, int &num);
+void printList(char courseNums[][MAXCHAR], int students[], int count);
 
-// Main function
-// https://en.cppreference.com/w/cpp/language/main_function.html
+//Main function
 int main() {
-  cout << "Hello, World!" << endl;
+  char courseNums[CAP][MAXCHAR] = {0};
+  int students[MAXCHAR] = {0};
+  int count = 0;
+
+  welcome();
+  readInput(courseNums, students, count);
+  printList(courseNums, students, count);
+
   return 0;
 }
 
-// Function implementations (if any)
+//Welcome function
+void welcome() {
+  cout << "Welcome to my Course Rosters program!! " << endl;
+  cout << "Enter course number and students enrolled when prompted." << endl;
+  cout << "Enter Quit or quit for course number when you are done." << endl;
+}
 
+void readInput(char courseNums[][MAXCHAR], int students[], int &count) {
+  char tempName[MAXCHAR] = {0};
 
-// ------------- DESIGN -------------
-/* 
-Program Name:
+  cout << "Enter course number: ";
+  cin.getline(tempName, MAXCHAR);
 
-Program Description:
+  while(strcmp(tempName, "quit") != 0 && strcmp(tempName, "Quit") != 0) {
+    if (count < CAP) {
+      strcpy(courseNums[count], tempName);
+      readInt("Number of students enrolled: ", students[count]);
+      count++;
+    }
+    if (count == CAP) {
+      cout << "List full!!" << endl;
+      strcpy(tempName, "quit");
+    }
+    else {
+      cout << "Enter course number: ";
+      cin.getline(tempName, MAXCHAR);
+    }
+  }
+}
 
-Design:
-A. INPUT
-Define the input variables including name data type. 
+void readInt(string prompt, int &num) {
+  cout << prompt;
+  cin >> num;
+  while (!cin || (num < 0)) {
+    cout << "Invalid input! Please try again!!" << endl;
+    cin.clear();
+    cin.ignore(100, '\n');
+    cout << prompt;
+    cin >> num;
+  }
+  cin.ignore(10, '\n');
+}
 
-B. OUTPUT
-Define the output variables including data types. 
-
-C. CALCULATIONS
-Describe calculations used by algorithms in step D.  
-List all formulas. 
-If there are no calculations needed, state there are no calculations.
-
-D. LOGIC and ALGORITHMS
-Design the logic of your program using pseudocode or flowcharts. 
-Use conditionals, loops, functions or array constructs.
-List the steps in transforming inputs into outputs. 
-https://github.com/Glen-Sasek-PCC-Instructor/2025-06-22/blob/main/Pseudocode-Reference.txt
-
-
-SAMPLE RUNS
-Copy from assignment document.
-
-*/
+void printList(char courseNums[][MAXCHAR], int students[], int count) {
+  for (int r = 0; r < count; r++){
+    for (int c = 0; c < MAXCHAR; c++){
+      cout << courseNums[r][c];
+    }
+    cout << "   " << students[r] << endl;
+  }
+}
